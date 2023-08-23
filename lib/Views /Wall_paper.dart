@@ -1,4 +1,5 @@
 import 'package:api_call/Modal/modal_api.dart';
+import 'package:async_wallpaper/async_wallpaper.dart';
 import 'package:flutter/material.dart';
 
 class detils extends StatefulWidget {
@@ -17,7 +18,7 @@ class _detilsState extends State<detils> {
         ModalRoute.of(context)!.settings.arguments as Wallpaper;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Set WallPaper"),
+        title: const Text("Set WallPaper"),
       ),
       body: Stack(
         alignment: Alignment.bottomCenter,
@@ -41,7 +42,7 @@ class _detilsState extends State<detils> {
                   height: 40,
                   width: 100,
                   decoration: BoxDecoration(
-                    image: DecorationImage(
+                    image: const DecorationImage(
                         image: NetworkImage(
                             "https://img.freepik.com/free-vector/hand-painted-watercolor-pastel-sky-background_23-2148902771.jpg?w=2000"),
                         fit: BoxFit.cover),
@@ -57,7 +58,7 @@ class _detilsState extends State<detils> {
                   height: 40,
                   width: 100,
                   decoration: BoxDecoration(
-                    image: DecorationImage(
+                    image: const DecorationImage(
                         image: NetworkImage(
                             "https://img.freepik.com/free-vector/hand-painted-watercolor-pastel-sky-background_23-2148902771.jpg?w=2000"),
                         fit: BoxFit.cover),
@@ -72,23 +73,32 @@ class _detilsState extends State<detils> {
               ],
             ),
           ),
-          Container(
-            height: 40,
-            width: 260,
-            margin: EdgeInsets.all(15),
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: NetworkImage(
-                      "https://img.freepik.com/free-vector/hand-painted-watercolor-pastel-sky-background_23-2148902771.jpg?w=2000"),
-                  fit: BoxFit.cover),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Center(
-              child: Text(
-                "Set WallPaper",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+          GestureDetector(
+            onTap: () async {
+              await AsyncWallpaper.setWallpaper(
+                url: wallpaper.largeImageURL,
+                wallpaperLocation: AsyncWallpaper.BOTH_SCREENS,
+                goToHome: true,
+              );
+            },
+            child: Container(
+              height: 40,
+              width: 260,
+              margin: const EdgeInsets.all(15),
+              decoration: BoxDecoration(
+                image: const DecorationImage(
+                    image: NetworkImage(
+                        "https://img.freepik.com/free-vector/hand-painted-watercolor-pastel-sky-background_23-2148902771.jpg?w=2000"),
+                    fit: BoxFit.cover),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: const Center(
+                child: Text(
+                  "Set WallPaper",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),

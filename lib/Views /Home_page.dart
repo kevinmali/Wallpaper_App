@@ -2,6 +2,7 @@ import 'package:api_call/Modal/Compamentos/helper_modal.dart';
 import 'package:api_call/Modal/modal_api.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:searchbar_animation/searchbar_animation.dart';
 
 class Home_page extends StatefulWidget {
   const Home_page({super.key});
@@ -11,7 +12,8 @@ class Home_page extends StatefulWidget {
 }
 
 class _Home_pageState extends State<Home_page> {
-  int all = 0;
+  TextEditingController search_Controller = TextEditingController();
+  String searchString = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,37 +34,41 @@ class _Home_pageState extends State<Home_page> {
           repeatForever: true,
         ),
       ),
-      body: Column(
-        children: [
-          Container(
-            height: 70,
-            margin: EdgeInsets.all(10),
-            child: TextFormField(
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search_rounded),
-                hintText: "search here ......",
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: FutureBuilder(
-                future: Api_Helper.api_helper.GetWallpaperData(search_data: ""),
-                builder: (ctx, snapshot) {
-                  if (snapshot.hasError) {
-                    return Center(
-                      child: Text("${snapshot.error}"),
-                    );
-                  } else if (snapshot.hasData) {
-                    List<Wallpaper>? wallpaper =
-                        snapshot.data as List<Wallpaper>?;
-                    print("===================");
-                    print("===================");
-                    print(wallpaper);
-                    print("===================");
-                    return GridView.builder(
+      body: FutureBuilder(
+          future:
+              Api_Helper.api_helper.GetWallpaperData(search_data: searchString),
+          builder: (ctx, snapshot) {
+            if (snapshot.hasError) {
+              return Center(
+                child: Text("${snapshot.error}"),
+              );
+            } else if (snapshot.hasData) {
+              List<Wallpaper>? wallpaper = snapshot.data as List<Wallpaper>?;
+              print("===================");
+              print("===================");
+              print(wallpaper);
+              print("===================");
+
+              return Column(
+                children: [
+                  Container(
+                    height: 70,
+                    child: SearchBarAnimation(
+                      buttonWidget: Icon(Icons.search_rounded),
+                      secondaryButtonWidget: Icon(Icons.search),
+                      textEditingController: search_Controller,
+                      isOriginalAnimation: true,
+                      trailingWidget: Icon(Icons.search),
+                      onFieldSubmitted: (String value) {
+                        setState(() {
+                          searchString = value;
+                        });
+                        search_Controller.clear();
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    child: GridView.builder(
                         shrinkWrap: true,
                         itemCount: wallpaper!.length,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -89,21 +95,21 @@ class _Home_pageState extends State<Home_page> {
                               ),
                             ),
                           );
-                        });
-                  }
-                  return Container(
-                    height: 100,
-                    width: 360,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: NetworkImage(""),
-                      ),
-                    ),
-                  );
-                }),
-          ),
-        ],
-      ),
+                        }),
+                  ),
+                ],
+              );
+            }
+            return Container(
+              height: 100,
+              width: 360,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(""),
+                ),
+              ),
+            );
+          }),
     );
   }
 }

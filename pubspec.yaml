@@ -37,6 +37,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   http: ^1.1.0
   animated_text_kit: ^4.2.2
+  searchbar_animation: ^0.0.4
+  async_wallpaper: ^2.0.0
 
 dev_dependencies:
   flutter_test:
