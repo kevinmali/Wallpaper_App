@@ -18,7 +18,9 @@ class _detilsState extends State<detils> {
         ModalRoute.of(context)!.settings.arguments as Wallpaper;
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Set WallPaper"),
+        title: const Center(
+          child: Text("Set WallPaper"),
+        ),
       ),
       body: Stack(
         alignment: Alignment.bottomCenter,

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:api_call/Modal/Compamentos/helper_modal.dart';
 import 'package:api_call/Modal/modal_api.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +26,7 @@ class _Home_pageState extends State<Home_page> {
             TypewriterAnimatedText(
               'Wall Paper',
               textStyle: const TextStyle(
-                fontSize: 32.0,
+                fontSize: 26,
                 fontWeight: FontWeight.bold,
               ),
               speed: const Duration(milliseconds: 1000),
@@ -44,10 +46,11 @@ class _Home_pageState extends State<Home_page> {
               );
             } else if (snapshot.hasData) {
               List<Wallpaper>? wallpaper = snapshot.data as List<Wallpaper>?;
-              print("===================");
-              print("===================");
-              print(wallpaper);
-              print("===================");
+              log("===================");
+              log("===================");
+              log("${wallpaper}");
+              log("===================");
+              log("===================");
 
               return Column(
                 children: [
@@ -71,11 +74,12 @@ class _Home_pageState extends State<Home_page> {
                     child: GridView.builder(
                         shrinkWrap: true,
                         itemCount: wallpaper!.length,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            mainAxisSpacing: 5,
-                            crossAxisSpacing: 5,
-                            mainAxisExtent: 350,
-                            crossAxisCount: 2),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                mainAxisSpacing: 5,
+                                crossAxisSpacing: 5,
+                                mainAxisExtent: 350,
+                                crossAxisCount: 2),
                         itemBuilder: (ctx, i) {
                           return GestureDetector(
                             onTap: () {
@@ -100,15 +104,16 @@ class _Home_pageState extends State<Home_page> {
                 ],
               );
             }
-            return Container(
-              height: 100,
-              width: 360,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(""),
-                ),
-              ),
-            );
+            return Center(child: CircularProgressIndicator());
+            // Container(
+            //   height: 100,
+            //   width: 360,
+            //   decoration: BoxDecoration(
+            //     image: DecorationImage(
+            //       image: NetworkImage(""),
+            //     ),
+            //   ),
+            // );
           }),
     );
   }
